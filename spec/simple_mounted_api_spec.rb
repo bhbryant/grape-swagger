@@ -20,11 +20,19 @@ describe "a simple mounted api" do
         {:bla => 'something_else'}
       end
     end
-
+    
+    class RackApi
+      def self.call(env)
+         [200, {}, ['']]
+      end
+    end 
+     
     class SimpleApi < Grape::API
       mount SimpleMountedApi
+      mount RackApi => "/route"
       add_swagger_documentation
     end
+     
   end
 
   def app; SimpleApi end
